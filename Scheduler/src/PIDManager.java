@@ -45,6 +45,7 @@ public class PIDManager {
 
     // Checks if a PID is within the valid range
     private boolean isValidPid(int pid) {
-        return pid >= minPid && pid <= maxPid;
+        return pid >= this.minPid && pid <= this.maxPid;
+
     }
 }
