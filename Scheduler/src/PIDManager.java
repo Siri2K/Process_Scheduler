@@ -1,8 +1,8 @@
 import java.util.BitSet;
 
 public class PIDManager {
-    private final int minPid;
-    private final int maxPid;
+    private static final int minPid = 300;
+    private static final int maxPid = 5000;
     private BitSet pidBitmap;
 
     public PIDManager(int minPid, int maxPid) {
