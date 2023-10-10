@@ -8,7 +8,8 @@ public class PIDManager {
     public PIDManager(int minPid, int maxPid) {
         this.minPid = minPid;
         this.maxPid = maxPid;
-        this.pidBitmap = new BitSet(maxPid - minPid + 1);
+        this.pidBitmap = new BitSet(this.maxPid - this.minPid + 1);
+
         initializePidBitmap();
     }
 
