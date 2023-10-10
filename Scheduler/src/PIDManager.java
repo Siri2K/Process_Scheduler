@@ -10,7 +10,8 @@ public class PIDManager {
         this.maxPid = maxPid;
         this.pidBitmap = new BitSet(this.maxPid - this.minPid + 1);
 
-        initializePidBitmap();
+        this.allocateMap();
+
     }
 
     // Creates and initializes a data structure for representing pids
