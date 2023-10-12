@@ -1,12 +1,12 @@
 package Queue;
 
-public class Queue<Key,Item>{
+@SuppressWarnings("unchecked")
+public class Queue<Process>{
     /* Attribute */
-    private Node<Key,Item> front,rear;
-    private int count;
+    private Node<Process> front,rear;
 
     /* Constructors */
-    public Queue(Node<Key,Item> front, Node<Key,Item> rear){
+    public Queue(Node<Process> front, Node<Process> rear){
         this.setFront(front);
         this.setRear(rear);
     }
@@ -16,34 +16,25 @@ public class Queue<Key,Item>{
     }
 
     /* Setter and Getter */
-    public void setFront(Node<Key,Item> front){
+    public void setFront(Node<Process> front){
         this.front = front;
     }
 
-    public void setRear(Node<Key,Item> rear){
+    public void setRear(Node<Process> rear){
         this.rear = rear;
     }
 
-    public void setCount(int count){
-        this.count = count;
-    }
-
-    public Node<Key,Item> getFront(){
+    public Node<Process> getFront(){
         return this.front;
     }
 
-    public Node<Key,Item> getRear(){
+    public Node<Process> getRear(){
         return this.rear;
     }
 
-    public int getCount(){
-        return this.count;
-    }
-
-
     /* Roles */
-    public void enqueue(Key key, Item item){
-        Node<Key,Item> newNode = new Node<>(key,item);
+    public void enqueue(Process item){
+        Node<Process> newNode = new Node<>(item);
         if(this.getRear() == null){ // First Node
             this.setFront(newNode);
             this.setRear(newNode);
@@ -52,37 +43,53 @@ public class Queue<Key,Item>{
              this.getRear().setNext(newNode);
              this.setRear(newNode);
         }
-        this.setCount(this.getCount()+1);
     }
 
-    public Node<Key,Item> dequeue(){
+    public Node<Process> dequeue(){
         if(this.isEmpty()){
             System.out.print("Queue is Empty");
         }
         else{
-            Node<Key,Item> removedNode = this.getFront();
+            Node<Process> removedNode = this.getFront();
             this.setFront(this.getFront().next());
             if(this.getFront() == null){
                 this.setRear(null);
             }
-            this.setCount(this.getCount()-1);
             return removedNode;
         }
         return null;
     }
 
-    public Node<Key,Item> peek(){
-        if(this.isEmpty()){
-            return null;
-        }
-        return this.getFront();
-    }
-
     public boolean isEmpty(){
-        return (this.getFront() == null) && (this.getCount() == 0);
+        return this.getFront() == null;
     }
 
     public int size(){
-        return this.getCount();
+        int count = 0;
+        Node<Process> current = this.getFront();
+
+        while(current !=null){
+            count++;
+            current=current.next();
+        }
+        return count;
+    }
+
+    public void clear(){
+        this.setFront(null);
+        this.setRear(null);
+    }
+
+    public Process[] toArray(){
+        Process[] processes = (Process[])new Object[this.size()];
+        Node<Process> current = this.getFront();
+
+        /* Convert All Nodes to Array */
+        int i = 0;
+        while(current != null){
+            processes[i] = current.process();
+            current = current.next();
+        }
+        return processes;
     }
 }

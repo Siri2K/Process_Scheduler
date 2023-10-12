@@ -1,4 +1,10 @@
-import java.util.*;
+package Process;
+
+/* Imports */
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Process {
     private String name;
@@ -19,6 +25,28 @@ public class Process {
         this.waiting = false;
     }
 
+    // setter methods
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public void setCpuBurst(int cpuBurst) {
+        this.cpuBurst = cpuBurst;
+    }
+
+    public void setArrivalTime(int arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public void setChildren(List<Process> children) {
+        this.children = children;
+    }
+
+    
     // Getter methods
 
     public String getName() {
@@ -82,9 +110,18 @@ public class Process {
         return "Process [name=" + name + ", priority=" + priority + ", cpuBurst=" + cpuBurst +
                 ", arrivalTime=" + arrivalTime + ", children=" + children.size() + "]";
     }
+
+    public boolean compareTo(Process process, String attribute) {
+        switch (attribute) {
+            case "Arrival Time":
+                return (this.getArrivalTime()- process.getArrivalTime()) < 0;
+            case "Priority":
+                return (this.getPriority()- process.getPriority()) < 0;
+            case "CPU Burst Time":
+                return (this.getCpuBurst()- process.getCpuBurst()) < 0;
+            default:
+                return false;
+        }
+        
+    }
 }
-
-
-
-
-

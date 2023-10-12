@@ -5,14 +5,14 @@ public class PIDManager {
     private static final int maxPid = 5000;
     private BitSet pidBitmap;
 
-    public PIDManager(int minPid, int maxPid) {
-        this.minPid = minPid;
-        this.maxPid = maxPid;
-        this.pidBitmap = new BitSet(this.maxPid - this.minPid + 1);
+    public PIDManager() {
+        this.pidBitmap = new BitSet(maxPid - minPid + 1);
 
         this.allocateMap();
 
     }
+
+
 
     // Creates and initializes a data structure for representing pids
     public int allocateMap() {
@@ -45,7 +45,7 @@ public class PIDManager {
 
     // Checks if a PID is within the valid range
     private boolean isValidPid(int pid) {
-        return pid >= this.minPid && pid <= this.maxPid;
+        return pid >= minPid && pid <= maxPid;
 
     }
 }
