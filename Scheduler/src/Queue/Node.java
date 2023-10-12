@@ -1,44 +1,36 @@
 package Queue;
 
-public class Node <Key, Item>{
+/* Import */
+import Process.Process;
+
+public class Node <Process>{
     /* Attribute */
-    Key key;
-    Item item;
-    Node <Key,Item> next;
+    Process process;
+    Node <Process> next;
 
     /* Contructors */
-    public Node(Key key, Item item, Node <Key,Item> next){
-        this.setKey(key);
-        this.setItem(item);
+    public Node(Process process, Node <Process> next){
+        this.setItem(process);
         this.setNext(next);
     }
 
-    public Node(Key key, Item item){
-        this(key,item,null);
+    public Node(Process process){
+        this(process,null);
     }
 
-    /* Setter & Getters */
-    public void setKey(Key key){
-        this.key = key;
+    public void setItem(Process process){
+        this.process = process;
     }
 
-    public void setItem(Item item){
-        this.item = item;
-    }
-
-    public void setNext(Node <Key,Item> next){
+    public void setNext(Node <Process> next){
         this.next = next;
     }
 
-    public Key key(){
-        return this.key;
+    public Process process(){
+        return this.process;
     }
 
-    public Item item(){
-        return this.item;
-    }
-
-    public Node <Key,Item> next(){
+    public Node <Process> next(){
         return this.next;
     }
 }
