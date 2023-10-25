@@ -6,6 +6,7 @@ import Queue.Queue;
 import Sort.MergeSort;
 
 abstract class Schedule {
+
     /* Attribute */
     private Queue<Process> queue;
 
@@ -14,12 +15,15 @@ abstract class Schedule {
         this.queue = queue;
     }
 
+
+
     public Queue<Process> getQueue(){
         return this.queue;
     }
 
     /* Function */
     void schedule(Process[] processes, String attribute){
+
         /* Sort Process Based on Arrival Time */
         MergeSort mergeSort = new MergeSort();
         mergeSort.sort(processes, attribute);
