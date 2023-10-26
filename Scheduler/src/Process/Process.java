@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 public class Process {
     private String name;
     private int priority;
@@ -14,6 +15,8 @@ public class Process {
     private List<Process> children;
     private Map<Process, Integer> waitingFor; // Map of child processes and the number of children to wait for
     private boolean waiting;
+
+
 
     public Process(String name, int priority, int cpuBurst, int arrivalTime) {
         this.name = name;
@@ -74,7 +77,9 @@ public class Process {
         children.add(child);
         waitingFor.put(child, 1); // Initialize to wait for 1 child
     }
-
+    public void setSchedulingAlgorithm(Schedule schedulingAlgorithm) {
+        this.schedulingAlgorithm = schedulingAlgorithm;
+    }
     // Check if the process has children
     public boolean hasChildren() {
         return !children.isEmpty();
@@ -104,6 +109,7 @@ public class Process {
             waiting = false; // No more children to wait for
         }
     }
+
 
     @Override
     public String toString() {
