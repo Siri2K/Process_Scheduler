@@ -2,6 +2,7 @@ package Schedule;
 
 /* Import */
 import Queue.Queue;
+import Sort.MergeSort;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,9 @@ public class RoundRobin extends Schedule{
     private int timeQuantum;
     
     public RoundRobin(int timeQuantum){
+        this.setCurrentTime(0);
         this.setTimeQuantum(timeQuantum);
+        this.setCurrentTime(0);
         this.setQueue(new Queue<>());
     }
 
@@ -20,37 +23,73 @@ public class RoundRobin extends Schedule{
         this(0);
     }
 
-    private void setTimeQuantum(int timeQuantum) {
+    public void setTimeQuantum(int timeQuantum) {
         this.timeQuantum = timeQuantum;
     }
 
-    private int getTimeQuantum(){
+    public int getTimeQuantum(){
         return this.timeQuantum;
-    }
+    } 
 
-    public Process[] divideProcess(Process[] processes){
-        /* List Ordered Process */
-        ArrayList<Process> processList = new ArrayList<>();
-        for (int i=0; i<processes.length; i++ ){
-            processList.add(i, processes[i]);
+    
+
+    public void schedule(Process[] processes, String attribute){
+        /* Sort Process Based on Arrival Time */
+        MergeSort mergeSort = new MergeSort();
+        processes = mergeSort.sort(processes, attribute);
+        int [] process_count = new int[processes.length];
+        int [] total_process_count = process_count;
+
+        /* Get Process Count */
+        for(int i = 0; i<processes.length;i++){
+           process_count[i] = processes[i].getCpuBurst()/(this.getTimeQuantum());
         }
 
-        /* Split Based on Time Quantum */
+        /* List Ordered Queue */
         this.getQueue().clear();
-        int count = 0;
-        while(!processList.isEmpty()){
-            if(processList.get(count).getArrivalTime() > this.getTimeQuantum() && this.getTimeQuantum() != 0){
-                this.getQueue().enqueue(processList.get(count));
-                this.getQueue().getFront().process().setArrivalTime(this.getTimeQuantum());
-                processList.get(count).setArrivalTime(processList.get(count).getArrivalTime() - this.getTimeQuantum());
-            }
-            else{
-                this.getQueue().enqueue(processList.get(count));
-                count++;
+        int i = 0;
+        for(Process process : processes){
+            /* Place Process in Queue */
+            this.printStatus(processes);
+            if(process.getArrivalTime() <= this.getCurrentTime()){
+                Process temp_process = process;
+                if(temp_process.getCpuBurst() > this.getTimeQuantum() && process_count[i] > 0){
+                    temp_process.setCpuBurst(this.getTimeQuantum());
+                }
+                else{
+                    temp_process.setCpuBurst(temp_process.getCpuBurst() - this.getTimeQuantum()*(total_process_count[i]-1));
+                }
+                this.getQueue().enqueue(temp_process);
+                process.setState("Running");
+                this.printStatus(processes);
+                process_count[i++]--; 
+                process.setFinishTime(this.getCurrentTime() + process.getCpuBurst());
+                this.setCurrentTime(this.getCurrentTime() + process.getCpuBurst());
+                
+                int j = i-1;
+                if(process_count[j] == 0){
+                    process.setState("Done");
+                }
+                else{
+                    process.setState("Wating");
+                }
+                this.printStatus(processes);
+            }            
+        }
+        
+        /* Setup Next Iteation of Process List */
+        ArrayList<Process> newProcessesArray = new ArrayList<Process>();
+        for(int j = 0; j<processes.length;j++){
+            if(process_count[i] > 0){
+                newProcessesArray.add(processes[j]);
             }
         }
 
-        /* Convert to Array */
-        return this.getQueue().toArray();
+        /* Check ArrayList */
+        if(!newProcessesArray.isEmpty()){
+            Process [] newProcessList = newProcessesArray.toArray(new Process [newProcessesArray.size()]);
+            this.schedule(newProcessList,attribute);
+        }    
     }
+
 }
