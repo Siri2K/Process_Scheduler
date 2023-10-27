@@ -7,7 +7,7 @@ public class MergeSort
 {
     public Process[] sort(Process[] A, String attribute)
     {
-        Process[] temp = (Process[]) new Comparable[A.length];
+        Process[] temp = new Process[A.length];
         return mergesort(A,temp,0,A.length-1,attribute);
     }
 

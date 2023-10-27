@@ -87,7 +87,7 @@ public class Queue<Process>{
         /* Convert All Nodes to Array */
         int i = 0;
         while(current != null){
-            processes[i] = current.process();
+            processes[i++] = current.process();
             current = current.next();
         }
         return processes;
