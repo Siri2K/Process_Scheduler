@@ -204,28 +204,6 @@ public class Scheduler{
         return sum/numberOfProcesses;
     }
 
-    private double calculate_average_wait_time(){
-        Queue<Process> temp_queue = this.get_queue();
-        Process[] process_list = new Process[this.get_queue().size()];
-        int numberOfProcesses = this.get_process_list().size();
-        int sum = 0;
-
-        /* Get Sum for Queue */
-        int i = 0;
-        while(!temp_queue.isEmpty()){
-            Process process = temp_queue.dequeue().process();
-            sum += process.getCpuBurst();
-            process_list[i++] = process;
-        }
-
-        /* Restore Queue */
-        for (Process process:process_list){
-            temp_queue.enqueue(process);
-        }
-
-        return this.calculate_average_turn_around_time() - sum/numberOfProcesses;
-    }
-
     private double calculate_average_response_time(){
         Queue<Process> temp_queue = this.get_queue();
         Process[] process_list = new Process[this.get_queue().size()];
@@ -246,6 +224,10 @@ public class Scheduler{
         }
         
         return sum/numberOfProcesses;
+    }
+
+    private double calculate_average_wait_time(){
+        return this.calculate_average_turn_around_time() - this.calculate_average_response_time();
     }
 
     public void print(){
