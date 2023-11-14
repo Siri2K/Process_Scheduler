@@ -1,5 +1,7 @@
 package Schedule;
 
+import java.util.ArrayList;
+
 /* Import */
 import Process.Process;
 import Queue.Queue;
@@ -34,6 +36,19 @@ abstract class Schedule {
         /* Sort Process Based on Arrival Time */
         MergeSort mergeSort = new MergeSort();
         processes = mergeSort.sort(processes, attribute);
+
+        ArrayList<Process> tempProcesses = new ArrayList<Process>();
+        
+        for(char process1 = 1; process1 <= 2; process1++){
+            for(int i = 0; i < processes.length; i++){
+                int charAt1 = (int)(processes[i].getName().charAt(1) - '0');
+                if(charAt1 == process1){
+                    tempProcesses.add(processes[i]);
+                }
+            }
+        }
+        processes = (Process[])tempProcesses.toArray(new Process[processes.length]);
+        
 
         /* List Ordered Queue */
         this.getQueue().clear();
