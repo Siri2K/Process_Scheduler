@@ -80,6 +80,9 @@ public class RoundRobin extends Schedule{
         /* Setup Next Iteation of Process List */
         ArrayList<Process> newProcessesArray = new ArrayList<Process>();
         for(int j = 0; j<processes.length;j++){
+            if(i >= processes.length){
+                i--;
+            }
             if(process_count[i] > 0){
                 newProcessesArray.add(processes[j]);
             }
